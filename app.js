@@ -12,16 +12,18 @@ searchUser.addEventListener('keyup', (e) => {
 
   if (userText !== '') {
     // Get user
-    github.getUser(userText).then((data) => {
-      if (data.profile.message === 'Not Found') {
-        // User not found => ui.showAlert(message, style)
-        console.log('Error')
-      } else {
-        //User found => ui.displayUser(data)
-        console.log(data)
-      }
-    })
+    github
+      .getUser(userText)
+      .then((data) => {
+        if (data.profile.message === 'Not Found') {
+          ui.showAlert('Not Found', 'alert-danger')
+        } else {
+          ui.displayProfile(data.profile)
+          ui.displayRepos(data.repos)
+        }
+      })
+      .catch((err) => console.log(err))
   } else {
-    // Clear profile ui.clearProfile()
+    ui.clearProfile()
   }
 })
